@@ -1,0 +1,95 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { SigninForm } from "@/components/auth/signin-form";
+import { auth } from "@/lib/auth";
+import { CheckCircle, Clock, ListTodo } from "lucide-react";
+
+export default function SigninPage() {
+  const router = useRouter();
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (auth.isAuthenticated()) {
+        router.replace("/dashboard");
+      } else {
+        setIsChecking(false);
+      }
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [router]);
+
+  if (isChecking) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex min-h-screen">
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-600 via-indigo-700 to-cyan-600 p-12 flex-col justify-between relative overflow-hidden">
+        {/* Decorative circles */}
+        <div className="absolute top-20 right-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl"></div>
+
+        <div className="relative z-10">
+          <h1 className="text-5xl font-bold text-white mb-4">TaskFlow</h1>
+          <p className="text-xl text-indigo-100">
+            Organize your work, track progress, and achieve more.
+          </p>
+        </div>
+
+        <div className="relative z-10 space-y-6">
+          <div className="flex items-start gap-4">
+            <div className="h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+              <ListTodo className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-white font-semibold text-lg mb-1">Simple Task Management</h3>
+              <p className="text-indigo-200 text-sm">Create, organize, and track all your tasks in one place</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-4">
+            <div className="h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+              <Clock className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-white font-semibold text-lg mb-1">Real-time Updates</h3>
+              <p className="text-indigo-200 text-sm">Instant synchronization across all your devices</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-4">
+            <div className="h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+              <CheckCircle className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-white font-semibold text-lg mb-1">Track Progress</h3>
+              <p className="text-indigo-200 text-sm">Monitor your productivity and celebrate achievements</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative z-10">
+          <p className="text-indigo-200 text-sm">
+            © 2026 TaskFlow. Built with Next.js & FastAPI.
+          </p>
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="flex-1 flex items-center justify-center p-8 bg-gradient-to-br from-gray-50 to-white">
+        <div className="w-full max-w-md">
+          <SigninForm />
+        </div>
+      </div>
+    </div>
+  );
+}
