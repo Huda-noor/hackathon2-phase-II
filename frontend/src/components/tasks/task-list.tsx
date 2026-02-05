@@ -18,7 +18,7 @@ export function TaskList({ refreshTrigger }: TaskListProps) {
   const fetchTasks = async () => {
     setIsLoading(true);
     try {
-      const fetchedTasks = await tasksService.fetchTasks();
+      const fetchedTasks = await tasksService.getTasks();
       setTasks(fetchedTasks);
     } catch (error: any) {
       toast.error(error.message || "Failed to fetch tasks");
