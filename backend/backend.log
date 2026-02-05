@@ -1,0 +1,29 @@
+INFO:     Will watch for changes in these directories: ['E:\\Python Working\\HackathonQ4\\Evoluton\\phase-ii\\backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [15928] using WatchFiles
+INFO:     Started server process [2408]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:54693 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49688 - "GET /health HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'src\api\routes\auth.py'. Reloading...
+INFO:     127.0.0.1:56700 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49222 - "POST /api/v1/auth/signup HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61790 - "POST /api/v1/auth/signup HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61851 - "GET /api/v1/openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61705 - "POST /api/v1/tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55288 - "POST /api/v1/auth/signup HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63717 - "OPTIONS /api/v1/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60415 - "OPTIONS /api/v1/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63717 - "GET /api/v1/tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63717 - "GET /api/v1/tasks HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60415 - "OPTIONS /api/v1/tasks/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60415 - "GET /api/v1/tasks/ HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:60415 - "GET /api/v1/tasks/ HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64040 - "OPTIONS /api/v1/auth/signin HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64040 - "POST /api/v1/auth/signin HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55400 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52952 - "POST /api/v1/auth/signup HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53025 - "GET /api/v1/openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50867 - "OPTIONS /api/v1/auth/signin HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50867 - "POST /api/v1/auth/signin HTTP/1.1" 404 Not Found
