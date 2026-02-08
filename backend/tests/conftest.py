@@ -1,5 +1,5 @@
 import pytest
-import httpx
+
 from typing import Generator, Dict, Any
 
 from fastapi.testclient import TestClient
