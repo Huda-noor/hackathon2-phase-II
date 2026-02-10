@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FrontendTask } from "@/types/task";
+import { FrontendTask, TaskStatus } from "@/types/task";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Edit2, Check, X, Circle, CircleDot, CheckCircle, Zap } from "lucide-react";
+import { Trash2, Edit2, Check, X, Circle, CheckCircle, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +13,7 @@ import { Card } from "@/components/ui/card";
 
 interface TaskItemProps {
   task: FrontendTask;
-  onToggleStatus: (id: number, status: "Todo" | "InProgress" | "Done") => void;
+  onToggleStatus: (id: number, status: TaskStatus) => void;
   onDelete: (id: number) => void;
   onUpdate: (id: number, data: { title?: string; description?: string }) => void;
 }
@@ -24,13 +24,13 @@ export function TaskItem({ task, onToggleStatus, onDelete, onUpdate }: TaskItemP
   const [editDescription, setEditDescription] = useState(task.description || "");
 
   const handleStatusClick = () => {
-    let newStatus: "Todo" | "InProgress" | "Done";
-    if (task.status === "Todo") {
-      newStatus = "InProgress";
-    } else if (task.status === "InProgress") {
-      newStatus = "Done";
+    let newStatus: TaskStatus;
+    if (task.status === "pending") {
+      newStatus = "in_progress";
+    } else if (task.status === "in_progress") {
+      newStatus = "completed";
     } else {
-      newStatus = "Todo";
+      newStatus = "pending";
     }
     onToggleStatus(task.id, newStatus);
   };
@@ -52,27 +52,27 @@ export function TaskItem({ task, onToggleStatus, onDelete, onUpdate }: TaskItemP
   };
 
   const statusConfig = {
-    Todo: {
+    pending: {
       icon: Circle,
-      badge: "todo",
+      badge: "todo" as const,
       label: "To Do",
       gradient: "from-slate-100/90 via-gray-100/90 to-slate-200/90",
       border: "border-l-slate-400",
       iconColor: "text-slate-500",
       bg: "bg-white/60"
     },
-    InProgress: {
+    in_progress: {
       icon: Zap,
-      badge: "inProgress",
+      badge: "inProgress" as const,
       label: "In Progress",
       gradient: "from-cyan-100/90 via-blue-100/90 to-purple-100/90",
       border: "border-l-cyan-500",
       iconColor: "text-blue-600",
       bg: "bg-gradient-to-r from-cyan-50/60 to-blue-50/60"
     },
-    Done: {
+    completed: {
       icon: CheckCircle,
-      badge: "done",
+      badge: "done" as const,
       label: "Done",
       gradient: "from-green-100/90 via-emerald-100/90 to-teal-100/90",
       border: "border-l-green-500",
@@ -146,11 +146,11 @@ export function TaskItem({ task, onToggleStatus, onDelete, onUpdate }: TaskItemP
           "group relative p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 backdrop-blur-md border-l-4 overflow-hidden",
           config.bg,
           config.border,
-          task.status === "Done" && "opacity-75"
+          task.status === "completed" && "opacity-75"
         )}
       >
         {/* Electric Effect for In Progress */}
-        {task.status === "InProgress" && (
+        {task.status === "in_progress" && (
           <motion.div
             animate={{
               opacity: [0.2, 0.5, 0.2],
@@ -182,7 +182,7 @@ export function TaskItem({ task, onToggleStatus, onDelete, onUpdate }: TaskItemP
                 <h3
                   className={cn(
                     "font-bold text-xl text-gray-900 drop-shadow-sm",
-                    task.status === "Done" && "line-through text-gray-500"
+                    task.status === "completed" && "line-through text-gray-500"
                   )}
                 >
                   {task.title}
@@ -193,7 +193,7 @@ export function TaskItem({ task, onToggleStatus, onDelete, onUpdate }: TaskItemP
                   className="mt-2"
                 >
                   <Badge
-                    variant={task.status === "Todo" ? "todo" : task.status === "InProgress" ? "inProgress" : "done"}
+                    variant={config.badge}
                     className="font-semibold shadow-sm"
                   >
                     {config.label}

@@ -12,6 +12,7 @@ router = APIRouter()
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
+
 @router.post("/", response_model=TaskRead)
 def create_task(
     *,
@@ -22,7 +23,7 @@ def create_task(
     """
     Create new task.
     """
-    if task_in.owner_id != current_user["id"]:
+    if task_in.user_id != current_user["id"]:
         raise HTTPException(status_code=403, detail="Not authorized to create tasks for other users")
     task = task_service.create_task(db=db, task=task_in)
     return task
@@ -38,7 +39,7 @@ def read_tasks(
     """
     Retrieve tasks for the current user.
     """
-    tasks = db.exec(select(Task).where(Task.owner_id == current_user["id"])).all()
+    tasks = db.exec(select(Task).where(Task.user_id == current_user["id"])).all()
     return tasks
 
 
@@ -55,7 +56,7 @@ def read_task(
     task = task_service.get_task_by_id(db=db, task_id=id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
-    if task.owner_id != current_user["id"]:
+    if task.user_id != current_user["id"]:
         raise HTTPException(status_code=403, detail="Not authorized to access this task")
     return task
 
@@ -74,7 +75,7 @@ def update_task(
     task = task_service.get_task_by_id(db=db, task_id=id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
-    if task.owner_id != current_user["id"]:
+    if task.user_id != current_user["id"]:
         raise HTTPException(status_code=403, detail="Not authorized to update this task")
     task = task_service.update_task(db=db, task_id=id, task=task_in)
     return task
@@ -93,7 +94,7 @@ def delete_task(
     task = task_service.get_task_by_id(db=db, task_id=id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
-    if task.owner_id != current_user["id"]:
+    if task.user_id != current_user["id"]:
         raise HTTPException(status_code=403, detail="Not authorized to delete this task")
     task_service.delete_task(db=db, task_id=id)
     return {"ok": True}

@@ -34,7 +34,7 @@ export function TaskList({ refreshTrigger }: TaskListProps) {
 
   const handleToggleStatus = async (
     id: number,
-    newStatus: "Todo" | "InProgress" | "Done"
+    newStatus: "pending" | "in_progress" | "completed"
   ) => {
     const previousTasks = [...tasks];
     setTasks((prevTasks) =>
@@ -127,9 +127,9 @@ export function TaskList({ refreshTrigger }: TaskListProps) {
   }
 
   // Group tasks by status
-  const todoTasks = tasks.filter((t) => t.status === "Todo");
-  const inProgressTasks = tasks.filter((t) => t.status === "InProgress");
-  const doneTasks = tasks.filter((t) => t.status === "Done");
+  const todoTasks = tasks.filter((t) => t.status === "pending");
+  const inProgressTasks = tasks.filter((t) => t.status === "in_progress");
+  const doneTasks = tasks.filter((t) => t.status === "completed");
 
   return (
     <div className="space-y-8">

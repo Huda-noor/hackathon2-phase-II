@@ -36,8 +36,9 @@ export function NewTaskForm({ onTaskCreated }: NewTaskFormProps) {
     defaultValues: {
       title: "",
       description: "",
-      status: "Todo",
-      owner_id: currentUser?.id || "",
+      status: "pending",
+      priority: "medium",
+      user_id: currentUser?.id || "",
     },
   });
 
@@ -49,8 +50,9 @@ export function NewTaskForm({ onTaskCreated }: NewTaskFormProps) {
       form.reset({
         title: "",
         description: "",
-        status: "Todo",
-        owner_id: currentUser?.id || "",
+        status: "pending",
+        priority: "medium",
+        user_id: currentUser?.id || "",
       });
       onTaskCreated();
     } catch (error: any) {

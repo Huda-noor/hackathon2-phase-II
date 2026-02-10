@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from sqlmodel import Session, select
@@ -14,7 +15,7 @@ def get_task_by_id(db: Session, task_id: int) -> Optional[Task]:
 
 
 def create_task(db: Session, task: TaskCreate) -> Task:
-    db_task = Task.from_orm(task)
+    db_task = Task.model_validate(task)
     db.add(db_task)
     db.commit()
     db.refresh(db_task)
@@ -24,9 +25,10 @@ def create_task(db: Session, task: TaskCreate) -> Task:
 def update_task(db: Session, task_id: int, task: TaskUpdate) -> Optional[Task]:
     db_task = db.get(Task, task_id)
     if db_task:
-        task_data = task.dict(exclude_unset=True)
+        task_data = task.model_dump(exclude_unset=True)
         for key, value in task_data.items():
             setattr(db_task, key, value)
+        db_task.updated_at = datetime.now(timezone.utc)
         db.add(db_task)
         db.commit()
         db.refresh(db_task)
